@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../static/bootstrap_img/favicon.ico">
+    <link rel="icon" href="../static/bootstrap_img/diabetes_FJl_icon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Diabetes Management Tracker</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/bootstrap_css/bootstrap.min.css" rel="stylesheet">
@@ -18,8 +18,8 @@
 
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-      <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Diabetes Management Tracker</a>
+      <input class="form-control form-control-light w-100" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <a class="nav-link" href="#">Sign out</a>
@@ -39,66 +39,41 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file"></span>
-                  Orders
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="shopping-cart"></span>
-                  Products
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Customers
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="layers"></span>
-                  Integrations
+                <a class="nav-link" href="input">
+                  <span data-feather="plus-circle"></span>
+                  Record New Event!
                 </a>
               </li>
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Saved reports</span>
+              <span>Timeframe</span>
               <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
               </a>
             </h6>
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text"></span>
-                  Current month
+                  Current Week
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text"></span>
-                  Last quarter
+                  Last Week
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text"></span>
-                  Social engagement
+                  Last Month
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text"></span>
-                  Year-end sale
+                  Year-to-date
                 </a>
               </li>
             </ul>
@@ -122,130 +97,71 @@
 
           <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
-          <h2>Section title</h2>
+          <h2>Recorded Data</h2>
           <div class="table-responsive">
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Data Type</th>
+                  <th>Value</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
+                  <td>01/01/2019</td>
+                  <td>11:36:59</td>
+                  <td>Blood Glucose</td>
+                  <td>6.9 mmol/L</td>
                 </tr>
                 <tr>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
+                  <td>01/01/2019</td>
+                  <td>11:36:59</td>
+                  <td>Carbohydrate Intake</td>
+                  <td>60 mg</td>
                 </tr>
                 <tr>
-                  <td>1,003</td>
-                  <td>Integer</td>
-                  <td>nec</td>
-                  <td>odio</td>
-                  <td>Praesent</td>
+                  <td>01/01/2019</td>
+                  <td>11:36:59</td>
+                  <td>Insulin Dosage</td>
+                  <td>6 units</td>
                 </tr>
                 <tr>
-                  <td>1,003</td>
-                  <td>libero</td>
-                  <td>Sed</td>
-                  <td>cursus</td>
-                  <td>ante</td>
+                  <td>01/13/2019</td>
+                  <td>07:38:08</td>
+                  <td>Blood Glucose</td>
+                  <td>4.5 mmol/L</td>
                 </tr>
                 <tr>
-                  <td>1,004</td>
-                  <td>dapibus</td>
-                  <td>diam</td>
-                  <td>Sed</td>
-                  <td>nisi</td>
+                  <td>01/13/2019</td>
+                  <td>07:38:08</td>
+                  <td>Carbohydrate Intake</td>
+                  <td>50 mg</td>
                 </tr>
                 <tr>
-                  <td>1,005</td>
-                  <td>Nulla</td>
-                  <td>quis</td>
-                  <td>sem</td>
-                  <td>at</td>
+                  <td>01/13/2019</td>
+                  <td>07:38:08</td>
+                  <td>Insulin Dosage</td>
+                  <td>5 units</td>
                 </tr>
                 <tr>
-                  <td>1,006</td>
-                  <td>nibh</td>
-                  <td>elementum</td>
-                  <td>imperdiet</td>
-                  <td>Duis</td>
+                  <td>02/06/2019</td>
+                  <td>18:25:46</td>
+                  <td>Blood Glucose</td>
+                  <td>6.7 mmol/L</td>
                 </tr>
                 <tr>
-                  <td>1,007</td>
-                  <td>sagittis</td>
-                  <td>ipsum</td>
-                  <td>Praesent</td>
-                  <td>mauris</td>
+                  <td>02/06/2019</td>
+                  <td>18:25:46</td>
+                  <td>Carbohydrate Intake</td>
+                  <td>30 mg</td>
                 </tr>
                 <tr>
-                  <td>1,008</td>
-                  <td>Fusce</td>
-                  <td>nec</td>
-                  <td>tellus</td>
-                  <td>sed</td>
-                </tr>
-                <tr>
-                  <td>1,009</td>
-                  <td>augue</td>
-                  <td>semper</td>
-                  <td>porta</td>
-                  <td>Mauris</td>
-                </tr>
-                <tr>
-                  <td>1,010</td>
-                  <td>massa</td>
-                  <td>Vestibulum</td>
-                  <td>lacinia</td>
-                  <td>arcu</td>
-                </tr>
-                <tr>
-                  <td>1,011</td>
-                  <td>eget</td>
-                  <td>nulla</td>
-                  <td>Class</td>
-                  <td>aptent</td>
-                </tr>
-                <tr>
-                  <td>1,012</td>
-                  <td>taciti</td>
-                  <td>sociosqu</td>
-                  <td>ad</td>
-                  <td>litora</td>
-                </tr>
-                <tr>
-                  <td>1,013</td>
-                  <td>torquent</td>
-                  <td>per</td>
-                  <td>conubia</td>
-                  <td>nostra</td>
-                </tr>
-                <tr>
-                  <td>1,014</td>
-                  <td>per</td>
-                  <td>inceptos</td>
-                  <td>himenaeos</td>
-                  <td>Curabitur</td>
-                </tr>
-                <tr>
-                  <td>1,015</td>
-                  <td>sodales</td>
-                  <td>ligula</td>
-                  <td>in</td>
-                  <td>libero</td>
+                  <td>02/06/2019</td>
+                  <td>18:25:46</td>
+                  <td>Insulin Dosage</td>
+                  <td>3 units</td>
                 </tr>
               </tbody>
             </table>
@@ -277,12 +193,12 @@
         data: {
           labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
           datasets: [{
-            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+            data: [6.9, 4.5, 6.7, 5.3, 2.1, 3.5, 3.8],
             lineTension: 0,
             backgroundColor: 'transparent',
-            borderColor: '#007bff',
+            borderColor: '#ff171d',
             borderWidth: 4,
-            pointBackgroundColor: '#007bff'
+            pointBackgroundColor: '#ff171d'
           }]
         },
         options: {

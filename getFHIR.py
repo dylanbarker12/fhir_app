@@ -11,7 +11,7 @@ def getPatient():
     '''
     settings = {
         'app_id': 'python_FHIR_app',
-        'api_base': 'http://sqlonfhir-stu3.azurewebsites.net/fhir/'
+        'api_base': 'https://api-v5-stu3.hspconsortium.org/Diabetes/open/'
     }
     server = client.FHIRClient(settings=settings).server
 
@@ -24,15 +24,16 @@ def getPatient():
     for r in results:
         try:
             birthyear = int(r.as_json()['birthDate'].split('-')[0])
-            if birthyear < 1973:
+            print(birthyear)
+            if birthyear > 2001:
                 data += r.as_json()['id'] + '\n' + \
                          r.as_json()['name'][0]['given'][0] + ' ' + r.as_json()['name'][0]['family'] + '\n' + \
-                         'Born: ' + str(birthyear) + '\n\n'
+                         'Born: ' + r.as_json()['birthDate'] + '\n\n'
                 count += 1
         except:
             continue
     #Return this information to app.py to include in the HTML rendering
-    return 'ID, name, and birth year for each female over 45 years old in the ' + settings['api_base'] + \
+    return 'ID, name, and birth year for each female less than 18 years old in the ' + settings['api_base'] + \
            ' FHIR server.\n\nTotal: ' + str(count) + '\n\n' + data
 
 def getCondition():
@@ -42,12 +43,12 @@ def getCondition():
     '''
     settings = {
         'app_id': 'python_FHIR_app',
-        'api_base': 'http://fhirtest.uhn.ca/baseDstu3/'
+        'api_base': 'https://api-v5-stu3.hspconsortium.org/Diabetes/open/'
     }
     server = client.FHIRClient(settings=settings).server
 
     #Query the FHIR server for all hypertension conditions using the SMOMED code for hypertension
-    search = c.Condition.where(struct={'code': '38341003'})
+    search = c.Condition.where(struct={'code': '73211009'})
     results = search.perform_resources(server)
     count = 0
     patients = []
@@ -64,10 +65,10 @@ def getCondition():
         for r in results:
             try:
                 data += r.as_json()['id'] + '\n' + \
-                      r.as_json()['name'][0]['given'][0] + ' ' + r.as_json()['name'][0]['family'] + '\n\n'
+                      r.as_json()['name'][0]['given'][0] + ' ' + r.as_json()['name'][0]['family'] +'\n'+ 'Born: ' + r.as_json()['birthDate'] +  '\n\n'
                 count += 1
             except:
                 continue
     #Return this information to app.py to include in the HTML rendering
-    return 'ID and name of each patient with hypertension in the ' + settings['api_base'] + \
+    return 'ID and name of each patient with diabetes in the ' + settings['api_base'] + \
            ' FHIR server.\n\nTotal: ' + str(count) + '\n\n' + data

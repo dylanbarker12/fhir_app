@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/bootstrap_img/diabetes_FJl_icon.ico">
+
+    <title>DMMP Input Data</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/bootstrap_css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/bootstrap_css/dashboard.css" rel="stylesheet">
+  </head>
+<!-- Default form contact -->
+<body>
+   <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Diabetes Management Tracker</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">Sign out</a>
+        </li>
+      </ul>
+    </nav>
+<form class="text-center border border-light p-5">
+
+    <h2>Start Tracking!</h2>
+
+    <!-- Subject -->
+    <label>Let's start with the time of day</label>
+    <select class="browser-default custom-select mb-4">
+        <option value="1">Morning (Breakfast)</option>
+        <option value="2">Mid-Day (Lunch)</option>
+        <option value="3">Evening (Dinner)</option>
+        <option value="4">Other (Snack)</option>
+    </select>
+
+    <!-- Blood Glucose Level-->
+    <label>Now enter your blood glucose level</label>
+    <input type="text" id="defaultContactFormGlucose" class="form-control mb-4" placeholder="Blood Glucose Level. e.g., 120 mg/dL">
+
+    <!-- Carbohydrates Consumed -->
+    <label>And how many carbs you've eaten</label>
+    <input type="text" id="defaultContactFormCarbs" class="form-control mb-4" placeholder="Carbohydrates Consumed. e.g., 30 grams">
+
+    <!-- Insulin Dosage -->
+    <label>How much insulin have you taken?</label>
+    <input type="text" id="defaultContactFormInsulinDose" class="form-control mb-4" placeholder="Insulin Dose. e.g., 1 injection">
+
+    <!-- Exercise -->
+    <label>Any exercise?</label>
+    <input type="text" id="defaultContactFormExercise" class="form-control mb-4" placeholder="Exercise Performed. e.g., 30 minutes">
+
+    <!-- Message -->
+    <div class="form-group">
+        <label>Finally, describe how you're feeling.</label>
+        <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Symptoms. e.g., lightheadeness, weakness, etc."></textarea>
+    </div>
+
+    <!-- Send button -->
+    <button class="btn btn-info btn-block" type="submit">Submit!</button>
+
+</form>
+<!-- Default form contact -->
+</body>

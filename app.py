@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask, render_template
 import getFHIR
 
 app = Flask(__name__)
@@ -22,6 +22,14 @@ def launch():
 @app.route('/dashboard')
 def dash():
     return render_template('dashboard.html')
+
+@app.route('/input')
+def input():
+    return render_template('input.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 #Allows you to run this file with the command 'python app.py' and launch the Flask server on the designated host and port.
 if __name__ == '__main__':
