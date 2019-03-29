@@ -1,7 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, request
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import getFHIR
 
+# App config
+DEBUG = True
 app = Flask(__name__)
+app.config.from_object(__name__)
+app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
 '''
 The app route parameter specifies when each function in app.py will be called. Since this is our initial function we
@@ -17,7 +22,8 @@ def launch():
     '''
     return render_template('index.html',
                            patient_example=getFHIR.getPatient(),
-                           condition_example=getFHIR.getCondition())
+                           condition_example=getFHIR.getCondition(),
+                           obs_example=getFHIR.allobsforpat())
 
 @app.route('/dashboard')
 def dash():
@@ -27,9 +33,10 @@ def dash():
 def input():
     return render_template('input.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
+
 
 #Allows you to run this file with the command 'python app.py' and launch the Flask server on the designated host and port.
 if __name__ == '__main__':
