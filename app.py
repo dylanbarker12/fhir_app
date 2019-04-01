@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request
+from flask import Flask, render_template, flash, request, redirect
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import getFHIR
 
@@ -25,11 +25,19 @@ def launch():
                            condition_example=getFHIR.getCondition(),
                            obs_example=getFHIR.allobsforpat())
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dash():
+    if request.method == 'POST':
+    # fetch the input given by the user and use those values to query
+        glucose = request.form['glucose']
+        carbs = request.form['carbs']
+        insulin = request.form['insulin']
+        exercise = request.form['exercise']
+        patient = {'glucose_': glucose, 'carbs_':carbs, 'insulin_': insulin, 'exercise_': exercise}
+        return render_template('dashboard.html', patient_details=patient)
     return render_template('dashboard.html')
 
-@app.route('/input')
+@app.route('/input', methods=['GET', 'POST'])
 def input():
     return render_template('input.html')
 

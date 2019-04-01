@@ -82,7 +82,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">My Weekly Key Data</h1>
+            <h1 class="h2">Recorded Blood Glucose Levels</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -109,24 +109,24 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><span id="bg_time"></span></td>
+                  <td>01/01/2019</td>
                   <td>Blood Glucose</td>
                   <td>{{ patient_details.glucose_ }}</td>
                 </tr>
                 <tr>
-                  <td><span id="c_time"></span></td>
+                  <td>01/01/2019</td>
                   <td>Carbohydrate Intake</td>
                   <td>{{ patient_details.carbs_ }}</td>
                 </tr>
                 <tr>
-                  <td><span id="i_time"></span></td>
+                  <td>01/01/2019</td>
                   <td>Insulin Dosage</td>
                   <td>{{ patient_details.insulin_ }}</td>
                 </tr>
                 <tr>
-                  <td><span id="e_time"></span></td>
-                  <td>Exercise</td>
-                  <td>{{ patient_details.exercise_ }}</td>
+                  <td>01/13/2019</td>
+                  <td>Blood Glucose</td>
+                  <td>4.5 mmol/L</td>
                 </tr>
                 <tr>
                   <td>01/13/2019</td>
@@ -168,27 +168,6 @@
     <script src="../static/bootstrap_js/popper.min.js"></script>
     <script src="../static/bootstrap_js/bootstrap.min.js"></script>
 
-    <!-- Date & Time -->
-    <script>
-      var today = new Date;
-      document.getElementById('bg_time').innerHTML = today.toDateString();
-    </script>
-
-    <script>
-      var today = new Date;
-      document.getElementById('c_time').innerHTML = today.toDateString();
-    </script>
-
-    <script>
-      var today = new Date;
-      document.getElementById('i_time').innerHTML = today.toDateString();
-    </script>
-
-    <script>
-      var today = new Date;
-      document.getElementById('e_time').innerHTML = today.toDateString();
-    </script>
-
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
     <script>
@@ -198,40 +177,33 @@
     <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script>
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
-
-            // The data for our dataset
-            data: {
-                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                datasets: [{
-                  label: 'Blood Glucose (mg/dL)',
-                  backgroundColor: 'transparent',
-                  borderColor: 'rgb(211, 78, 78)',
-                  data: [100, 150, 120, 200, 126, 138, {{ patient_details.glucose_ }}],
-                }, {
-                  label: 'Insulin Dosage',
-                  backgroundColor: 'transparent',
-                  borderColor: 'rgb(4, 247, 25)',
-                  data: [2, 2, 2, 1, 1, 2, {{ patient_details.insulin_ }}],
-                }, {
-                  label: 'Carb Intake (g)',
-                  backgroundColor: 'transparent',
-                  borderColor: 'rgb(12, 86, 206)',
-                  data: [60, 70, 70, 150, 100, 20, 30, 50{{ patient_details.carbs }}],
-                }, {
-                  label: 'Exercise (time)',
-                  backgroundColor: 'transparent',
-                  borderColor: 'rgb(174, 23, 234)',
-                  data: [60, 0, 0, 30, 60, 90, {{ patient_details.exercise_ }}],
-                }]
-            },
-
-            // Configuration options go here
-            options: {}
-        });
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Morning (Breakfast)", "Mid-Day (Lunch)", "Evening (Dinner)"],
+          datasets: [{
+            data: [{{ patient_details.glucose_ }}, 120, 180],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#ff171d',
+            borderWidth: 4,
+            pointBackgroundColor: '#ff171d'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
     </script>
   </body>
 </html>
