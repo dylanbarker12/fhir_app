@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, request, redirect
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import getFHIR
+import fhir_resources
 
 # App config
 DEBUG = True
@@ -34,7 +35,7 @@ def dash():
         insulin = request.form['insulin']
         exercise = request.form['exercise']
         patient = {'glucose_': glucose, 'carbs_':carbs, 'insulin_': insulin, 'exercise_': exercise}
-        return render_template('dashboard.html', patient_details=patient)
+        return render_template('dashboard.html', patient_details=fhir_resources.store_and_fetch_data(patient))
     return render_template('dashboard.html')
 
 @app.route('/input', methods=['GET', 'POST'])
