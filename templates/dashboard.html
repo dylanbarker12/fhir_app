@@ -108,51 +108,63 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><span id="bg_time"></span></td>
-                  <td>Blood Glucose</td>
-                  <td>{{ patient_details.glucose_ }}</td>
-                </tr>
-                <tr>
-                  <td><span id="c_time"></span></td>
-                  <td>Carbohydrate Intake</td>
-                  <td>{{ patient_details.carbs_ }}</td>
-                </tr>
-                <tr>
-                  <td><span id="i_time"></span></td>
-                  <td>Insulin Dosage</td>
-                  <td>{{ patient_details.insulin_ }}</td>
-                </tr>
-                <tr>
-                  <td><span id="e_time"></span></td>
-                  <td>Exercise</td>
-                  <td>{{ patient_details.exercise_ }}</td>
-                </tr>
-                <tr>
-                  <td>01/13/2019</td>
-                  <td>Carbohydrate Intake</td>
-                  <td>50 mg</td>
-                </tr>
-                <tr>
-                  <td>01/13/2019</td>
-                  <td>Insulin Dosage</td>
-                  <td>5 units</td>
-                </tr>
-                <tr>
-                  <td>02/06/2019</td>
-                  <td>Blood Glucose</td>
-                  <td>6.7 mmol/L</td>
-                </tr>
-                <tr>
-                  <td>02/06/2019</td>
-                  <td>Carbohydrate Intake</td>
-                  <td>30 mg</td>
-                </tr>
-                <tr>
-                  <td>02/06/2019</td>
-                  <td>Insulin Dosage</td>
-                  <td>3 units</td>
-                </tr>
+                  <!--Where is patient_details coming from?-->
+                  {% for detail in patient_details %}
+                      <tr>
+                        <td>{{detail.date}}</td>
+                        <td>{{detail.data_type}}</td>
+                        <td>{{detail.value}}</td>
+                      </tr>
+                  {% endfor %}
+
+
+
+
+                <!--<tr>-->
+                  <!--<td><span id="bg_time"></span></td>-->
+                  <!--<td>Blood Glucose</td>-->
+                  <!--<td>{{ patient_details.glucose_ }}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td><span id="c_time"></span></td>-->
+                  <!--<td>Carbohydrate Intake</td>-->
+                  <!--<td>{{ patient_details.carbs_ }}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td><span id="i_time"></span></td>-->
+                  <!--<td>Insulin Dosage</td>-->
+                  <!--<td>{{ patient_details.insulin_ }}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td><span id="e_time"></span></td>-->
+                  <!--<td>Exercise</td>-->
+                  <!--<td>{{ patient_details.exercise_ }}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>Tue Apr 02 2019</td>-->
+                  <!--<td>Carbohydrate Intake</td>-->
+                  <!--<td>50 mg</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>Tue Apr 02 2019</td>-->
+                  <!--<td>Insulin Dosage</td>-->
+                  <!--<td>5 units</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>Tue Apr 02 2019</td>-->
+                  <!--<td>Blood Glucose</td>-->
+                  <!--<td>6.7 mmol/L</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>Tue Apr 02 2019</td>-->
+                  <!--<td>Carbohydrate Intake</td>-->
+                  <!--<td>30 mg</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>Tue Apr 02 2019</td>-->
+                  <!--<td>Insulin Dosage</td>-->
+                  <!--<td>3 units</td>-->
+                <!--</tr>-->
               </tbody>
             </table>
           </div>
@@ -235,3 +247,4 @@
     </script>
   </body>
 </html>
+5

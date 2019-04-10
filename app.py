@@ -6,6 +6,7 @@ import fhir_resources
 # App config
 DEBUG = True
 app = Flask(__name__)
+app.all_details = [] #creating an empty array that the function will populate.
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
@@ -35,11 +36,14 @@ def dash():
         insulin = request.form['insulin']
         exercise = request.form['exercise']
         patient = {'glucose_': glucose, 'carbs_':carbs, 'insulin_': insulin, 'exercise_': exercise}
-        return render_template('dashboard.html', patient_details=fhir_resources.store_and_fetch_data(patient))
+        app.all_details = fhir_resources.append_details(patient, app.all_details) # all info that is to be displayed in the table
+        fhir_resources.store_data(patient)
+        return render_template('dashboard.html', patient_details=app.all_details)
     return render_template('dashboard.html')
 
 @app.route('/input', methods=['GET', 'POST'])
 def input():
+    app.all_details = fhir_resources.fetch_all_details(app.all_details) # this function should return an array of dictionary. This happens on submit from the input file.
     return render_template('input.html')
 
 @app.route('/login', methods=['GET', 'POST'])

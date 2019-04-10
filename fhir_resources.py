@@ -5,7 +5,6 @@ import fhirclient.models.condition as c
 import fhirclient.models.observation as obs
 import fhirclient.models.procedure as proc
 import fhirclient.models.medicationadministration as MA
-
 import requests, json
 import pandas as pd
 
@@ -32,7 +31,7 @@ def allobsforpat(patid, loinc, server):
     '''
     patient_id = 'Patient/' + patid
     loinc = loinc
-    search = obs.Observation.where(struct={'subject': patient_id, 'code': loinc})
+    search = obs.Observation.where(struct={'patient': patient_id, 'code': loinc})
     fhir_obs = search.perform_resources(server)
     # create lists from all observations of dates and values
     listdates = []
@@ -48,6 +47,7 @@ def allobsforpat(patid, loinc, server):
     d = d.sort_values('Dates', ascending=True)
     return d
 
+#https://api-v8-stu3.hspconsortium.org/Diabetes/open/Observation?code=41653-7&patient=16952
 
 # enter Glucometer Reading
 def EnterGlucometerReading(server, patid, value, time):
@@ -130,7 +130,7 @@ def EnterCarbohydrates(server, patid, value, time):
      '''
     import requests, json
     patient = 'Patient/' + patid
-    print("**************************** in enter carbs")
+    # print("**************************** in enter carbs")
     #if __name__ == '__main__':
 
     obs = {
@@ -167,7 +167,7 @@ def EnterCarbohydrates(server, patid, value, time):
     obs = json.dumps(obs, indent=4)
 
     r = requests.post(server + 'Observation', data=obs)
-    print("*******************************************", r.status_code)
+    # print("*******************************************", r.status_code)
     if r.status_code != 201:
         print(r.status_code)
         print(obs)
@@ -349,6 +349,7 @@ def allMAsforpat(patid, rxnorm, server):
 
     allprocsforpat() returns a pandas dataframe
     '''
+    #print("*** in function***")
     patient_id = 'Patient/' + patid
     search = MA.MedicationAdministration.where(struct={'subject': patient_id, 'code': rxnorm})
     fhir_obs = search.perform_resources(server)
@@ -368,19 +369,115 @@ def allMAsforpat(patid, rxnorm, server):
     # make pandas df from dictionary
     d = pd.DataFrame(d)
     d = d.sort_values('Dates', ascending=True)
+    print("*** in function***")
     return d
 
 #**************************************
 # Patient ID: Patient/cf-1553130119529
 
-def store_and_fetch_data(patient):
-    # write a function to store the data of the new record
+# def store_and_fetch_data(patient):
+#     patient = store_data(patient)
+#     patient_1 = fetch_data()
+#     return patient
+
+def fetch_data(all_details):
+    api_base = 'https://api-v8-stu3.hspconsortium.org/Diabetes/open/'
+    server = serverconnect(api_base)
+    loinc_g = "41653-7"  # glucose by glucometer
+    loinc_c = "LP72222-0" # carbohydrate
+    snomed = "183302000" # exercise
+    rxnorm = "285018" #insulin
     patid = 'cf-1553130119529'
+    df_g = allobsforpat(patid, loinc_g, server)
+    df_c = allobsforpat(patid, loinc_c, server)
+    df_e = allprocsforpat(patid, snomed, server)
+    df_i = allMAsforpat(patid, rxnorm, server)
+    add_glucose_to_table(df_g, all_details)
+    add_carbs_to_table(df_c, all_details)
+    add_exercise_to_table(df_e, all_details)
+    add_insulin_to_table(df_i, all_details)
+
+    #print(df_g.to_string())
+    # print(df_c.to_string())
+    # print(df_e.to_string())
+    # print(df_i.to_string())
+
+def add_glucose_to_table(df_g, all_details):
+    # for row in df_g:
+    #     print(row)
+    #      print((df_g.loc[[0]]).loc[: , "Dates"])
+    for row in df_g.head().itertuples():
+        #print(index, len(df_g))
+        # for row in df_g.head().itertuples():
+        details = {'date': row.Dates,
+               'data_type': 'glucose',
+               'value': row.Obs_Rsrc_Values}
+        all_details.append(details)
+        # date = (df_g.loc[[index]]).loc[: , "Dates"]
+        # print((df_g.loc[[index]]).loc[: , "Dates"])
+        # print((df_g.loc[[index]]).loc[:, "Obs_Rsrc_Values"])
+
+def add_carbs_to_table(df_c, all_details):
+    for row in df_c.head().itertuples():
+        details = {'date': row.Dates,
+               'data_type': 'carbs',
+               'value': row.Obs_Rsrc_Values}
+        all_details.append(details)
+
+def add_exercise_to_table(df_e, all_details):
+    for row in df_e.head().itertuples():
+        details = {'date': row.Dates,
+               'data_type': 'exercise',
+               'value': row.Proc_Rsrc_Values}
+        all_details.append(details)
+
+def add_insulin_to_table(df_i, all_details):
+    for row in df_i.head().itertuples():
+        details = {'date': row.Dates,
+               'data_type': 'insulin',
+               'value': row.Dose}
+        all_details.append(details)
+
+def store_data(patient):
+    # write a function to store the data of the new record
+    patid = '16952'
     server = 'https://api-v8-stu3.hspconsortium.org/Diabetes/open/'
     loinc = 'LP72222-0'
-    # weite a function to fetch all the details
+    # write a function to fetch all the details
     EnterCarbohydrates(server, patid, patient['carbs_'], "2019-04-01T21:14:10+01:00")
-    EnterGlucometerReading(server, patid, patient['glucose_'], "2019-04-01T21:14:10+01:00")
+    EnterGlucometerReading(server, patid, patient['glucose_'], "2019-04-03T17:47:10+01:00")
     EnterExercise(server, patid, patient['exercise_'], "2019-04-01T21:14:10+01:00")
     EnterInsulin_Lantus100u_ml(server, patid, patient['insulin_'], "2019-04-01T21:14:10+01:00")
     return patient
+
+def fetch_all_details(all_details):
+    '''
+       This currently is just hard-coded. Don't we need to add the input variable into each 'value' section?
+    '''
+
+    # details = {'date': '126464', 'data_type': 'carbs', 'value': 100}
+    # details_2 = {'date': '123123', 'data_type': 'carbs', 'value': 1234}
+    # details_3 = {'date': '123123', 'data_type': 'carbs', 'value': 1034}
+    # details_4 = {'date': '123123', 'data_type': 'carbs', 'value': 1067}
+    # all_details.append(details)
+    # all_details.append(details_2)
+    # all_details.append(details_3)
+    # all_details.append(details_4)
+    fetch_data(all_details)
+    return all_details
+
+
+def append_details(patient, all_details):
+    '''
+       This currently is just hard-coded. We will change to access the correct data based on where the values. This would be something like df_g[date] to get the date value.
+    '''
+    #print("*****************",patient)
+    details_dict = {'date': '1324', 'data_type': 'glucose', 'value': patient['glucose_']}
+    all_details.append(details_dict)
+    details_dict = {'date': '1324', 'data_type': 'carbs', 'value':  patient['carbs_']}
+    all_details.append(details_dict)
+    details_dict = {'date': '1324', 'data_type': 'insulin', 'value': patient['insulin_']}
+    all_details.append(details_dict)
+    details_dict = {'date': '1324', 'data_type': 'exercise', 'value': patient['exercise_']}
+    all_details.append(details_dict)
+    return all_details
