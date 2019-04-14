@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../static/bootstrap_img/diabetes_FJl_icon.ico">
 
-    <title>Diabetes Management Tracker</title>
+    <title>Diabetes Tracker</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/bootstrap_css/bootstrap.min.css" rel="stylesheet">
@@ -18,8 +18,7 @@
 
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Diabetes Management Tracker</a>
-      <input class="form-control form-control-light w-100" type="text" placeholder="Search" aria-label="Search">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Diabetes Management Tracker on FHIR</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <a class="nav-link" href="#">Sign out</a>
@@ -47,33 +46,15 @@
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Timeframe</span>
+              <span>How Much Insulin Should I Take?</span>
               <a class="d-flex align-items-center text-muted" href="#">
               </a>
             </h6>
-            <ul class="nav flex-column mb-2">
+            <ul class="nav flex-column mb-2" method = "POST" action = "/dashboard">
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="calculator">
                   <span data-feather="file-text"></span>
-                  Current Week
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Last Week
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Last Month
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Year-to-date
+                  Click to Calculator Insulin Dose Rate
                 </a>
               </li>
             </ul>
@@ -180,26 +161,26 @@
     <script src="../static/bootstrap_js/popper.min.js"></script>
     <script src="../static/bootstrap_js/bootstrap.min.js"></script>
 
-    <!-- Date & Time -->
-    <script>
-      var today = new Date;
-      document.getElementById('bg_time').innerHTML = today.toDateString();
-    </script>
+    <!--&lt;!&ndash; Date & Time &ndash;&gt;-->
+    <!--<script>-->
+      <!--var today = new Date;-->
+      <!--document.getElementById('bg_time').innerHTML = today.toDateString();-->
+    <!--</script>-->
 
-    <script>
-      var today = new Date;
-      document.getElementById('c_time').innerHTML = today.toDateString();
-    </script>
+    <!--<script>-->
+      <!--var today = new Date;-->
+      <!--document.getElementById('c_time').innerHTML = today.toDateString();-->
+    <!--</script>-->
 
-    <script>
-      var today = new Date;
-      document.getElementById('i_time').innerHTML = today.toDateString();
-    </script>
+    <!--<script>-->
+      <!--var today = new Date;-->
+      <!--document.getElementById('i_time').innerHTML = today.toDateString();-->
+    <!--</script>-->
 
-    <script>
-      var today = new Date;
-      document.getElementById('e_time').innerHTML = today.toDateString();
-    </script>
+    <!--<script>-->
+      <!--var today = new Date;-->
+      <!--document.getElementById('e_time').innerHTML = today.toDateString();-->
+    <!--</script>-->
 
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
@@ -211,33 +192,49 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
+        var glucose = '{{ observations['glucose'] }}';
+        //var glucose = [100, 150, 120, 200, 126, 150];
+        // console.log(typeof glucose);
+        console.log(glucose);
+        var insulin = '{{ observations['insulin']  }}';
+        console.log(insulin);
+        var carbs = '{{ observations['carbs']  }}';
+        console.log(carbs);
+        var exercise = '{{ observations['exercise']  }}';
+        console.log(exercise);
+        var all_details = '(( patient_details ))';
         var myChart = new Chart(ctx, {
             // The type of chart we want to create
             type: 'line',
 
             // The data for our dataset
             data: {
-                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                 datasets: [{
                   label: 'Blood Glucose (mg/dL)',
                   backgroundColor: 'transparent',
                   borderColor: 'rgb(211, 78, 78)',
-                  data: [100, 150, 120, 200, 126, 138, {{ patient_details.glucose_ }}],
+                  data: {{ observations['glucose'] }},
+                  // data: glucose,
+                  // data: all_details,
                 }, {
                   label: 'Insulin Dosage',
                   backgroundColor: 'transparent',
                   borderColor: 'rgb(4, 247, 25)',
-                  data: [2, 2, 2, 1, 1, 2, {{ patient_details.insulin_ }}],
+                  // data: [2, 2, 2, 1, 1, 2],
+                  data: {{ observations['insulin'] }},
                 }, {
                   label: 'Carb Intake (g)',
                   backgroundColor: 'transparent',
                   borderColor: 'rgb(12, 86, 206)',
-                  data: [60, 70, 70, 150, 100, 20, {{ patient_details.carbs_ }}],
+                  //data: [60, 70, 70, 150, 100, 122],
+                  data: {{ observations['carbs'] }},
                 }, {
                   label: 'Exercise (time)',
                   backgroundColor: 'transparent',
                   borderColor: 'rgb(174, 23, 234)',
-                  data: [60, 0, 0, 30, 60, 90, {{ patient_details.exercise_ }}],
+                  // data: [60, 0, 0, 30, 60, 12],
+                  data: {{ observations['exercise'] }},
                 }]
             },
 
@@ -247,4 +244,3 @@
     </script>
   </body>
 </html>
-5

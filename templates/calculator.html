@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+      <title>Diabetes Tracker on FHIR</title>
+    <link rel="icon" href="../static/bootstrap_img/diabetes_FJl_icon.ico">
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap_css/bootstrap-css.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+  </head>
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+<script type="text/javascript" src="../static/bootstrap_js/javascript.js"></script>
+      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<body>
+    <div class="container">
+        <div class="row">
+			<div class="col-md-5 mx-auto">
+			<div id="first">
+				<div class="myform form ">
+					 <div class="logo mb-3">
+						 <div class="col-md-12 text-center">
+                             <h2>How Much Insulin Should I Take?</h2>
+						 </div>
+					</div>
+                   <form action="" method="POST" name="calculator">
+                           <h4>Carbohydrate Coverage at Meal</h4>
+                           <div class="form-group">
+                              <label for="carbo">How Many Carbs?</label>
+                              <input type="carbo" name="carbo"  class="form-control" id="carbo" aria-describedby="carbo" placeholder="Enter Amount of Carbs You'll Eat">
+                           </div>
+                           <div class="form-group">
+                              <label for="cho_ratio">CHO Ratio</label>
+                              <input type="cho_ratio" name="cho_ratio" id="cho_ratio"  class="form-control" aria-describedby="cho_Ratio" placeholder="Enter CHO Ratio, i.e. '10'">
+                           </div>
+                           <h4>High Blood Sugar Correction</h4>
+                           <div class="form-group">
+                              <label for="actul_blood_sugar">Actual Pre-Meal Blood Sugar</label>
+                              <input type="actul_blood_sugar" name="actul_blood_sugar" id="actul_blood_sugar"  class="form-control" aria-describedby="actul_blood_sugar" placeholder="Enter Pre-Meal Blood Sugar, i.e. 220">
+                           </div>
+                           <div class="form-group">
+                              <label for="target_blood_sugar">Pre-Meal Target Blood Sugar</label>
+                              <input type="target_blood_sugar" name="target_blood_sugar" id="target_blood_sugar"  class="form-control" aria-describedby="target_blood_sugar" placeholder="Enter Pre-Meal Target Blood Sugar, i.e. '120'">
+                           </div>
+                           <div class="col-md-12 text-center " method = "POST" action = "/input">
+                              <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Calculate!</button>
+                           </div>
+                   </form>
+                </div>
+            </div>
+		</div>
+      </div>
+    </div>
+</body>

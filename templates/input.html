@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../static/bootstrap_img/diabetes_FJl_icon.ico">
 
-    <title>DMMP Input Data</title>
+    <title>Diabetes Tracker on FHIR</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/bootstrap_css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
 <!-- Default form contact -->
 <body>
    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Diabetes Management Tracker</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Diabetes Tracker on FHIR</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <a class="nav-link" href="#">Sign out</a>
@@ -26,9 +26,11 @@
       </ul>
     </nav>
 <form class="text-center border border-light p-5" method = "POST" action = "/dashboard">
-
-    <h2>Start Tracking!</h2>
-
+    <br>
+    <h2>Welcome Back, Dylan!</h2>
+    <br>
+    <h1>Start Tracking!</h1>
+    <br>
     <!-- Subject -->
     <label>Let's start with the time of day</label>
     <select class="browser-default custom-select mb-4">
@@ -48,6 +50,16 @@
 
     <!-- Insulin Dosage -->
     <label>How much insulin have you taken?</label>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <h5 class=flashes>
+        {% for message in messages %}
+        <h5><strong>{{ message }}</strong></h5>
+        {% endfor %}
+    </h5>
+    {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
     <input type="text" name = "insulin" id="defaultContactFormInsulinDose" class="form-control mb-4" placeholder="Insulin Dose. e.g., 1 injection">
 
     <!-- Exercise -->
