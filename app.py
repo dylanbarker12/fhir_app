@@ -8,6 +8,7 @@ DEBUG = True
 app = Flask(__name__)
 app.all_details = [] #creating an empty array that the function will populate.
 app.observations = {'glucose': [], 'carbs': [], 'insulin': [], 'exercise':[]}
+app.username = ""
 # app.glucose_details = []
 # app.carb_details = []
 # app.insulin_details = []
@@ -60,19 +61,26 @@ def input():
 
     app.observations = {'glucose': [], 'carbs': [], 'insulin': [], 'exercise':[]}
     app.all_details = fhir_resources.fetch_all_details(app.all_details, app.observations) # this function should return an array of dictionary. This happens on submit from the input file.
-    return render_template('input.html')
+    return render_template('input.html', username = app.username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        app.username = request.form['username']
         return redirect('/input')
-    return render_template('login.html')
+    return render_template('login.html', username = app.username)
 
 @app.route('/calculator', methods=['GET', 'POST'])
 def calc():
     error = None
     if request.method == 'POST':
-        flash('You should take 8 Units of Insulin!')
+        carbs = int(request.form['carbo'])
+        cho = int(request.form['cho_ratio'])
+        actual = int(request.form['actul_blood_sugar'])
+        target = int(request.form['target_blood_sugar'])
+        result = int((carbs/cho) + ((actual-target)/50))
+        result = str(result)
+        flash('You should take '+result+' Units of Insulin!')
         return redirect('/input')
     return render_template('calculator.html')
 
