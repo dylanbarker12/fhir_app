@@ -44,6 +44,8 @@ def allobsforpat(patid, loinc, server):
     d = {'Obs_Rsrc_Values': listvals, 'Dates': listdates}
     # make pandas df from dictionary
     d = pd.DataFrame(d)
+    d['Dates'] = pd.to_datetime(d['Dates'])
+    d['Dates'] = d['Dates'].dt.strftime('%B %d, %Y, %r')
     d = d.sort_values('Dates', ascending=True)
     return d
 
@@ -262,7 +264,10 @@ def allprocsforpat(patid, snomed, server):
          }
     # make pandas df from dictionary
     d = pd.DataFrame(d)
+    d['Dates'] = pd.to_datetime(d['Dates'])
+    d['Dates'] = d['Dates'].dt.strftime('%B %d, %Y, %r')
     d = d.sort_values('Dates', ascending=True)
+
     #print(d)
     return d
 
@@ -368,6 +373,8 @@ def allMAsforpat(patid, rxnorm, server):
     d = {'MA_Rsrc_Values': Medlist, 'Dates': listdates, 'Dose': listvals}
     # make pandas df from dictionary
     d = pd.DataFrame(d)
+    d['Dates'] = pd.to_datetime(d['Dates'])
+    d['Dates'] = d['Dates'].dt.strftime('%B %d, %Y, %r')
     d = d.sort_values('Dates', ascending=True)
     print("*** in function***")
     return d
@@ -383,19 +390,19 @@ def allMAsforpat(patid, rxnorm, server):
 #     patient_1 = fetch_data()
 #     return patient
 
-def fetch_data(all_details, observations):
+def fetch_data(all_details, observations, datetime):
     api_base = 'https://api-v8-stu3.hspconsortium.org/Diabetes/open/'
     server = serverconnect(api_base)
     loinc_g = "41653-7"  # glucose by glucometer
     loinc_c = "LP72222-0"  # carbohydrate
     snomed = "183302000"  # exercise
     rxnorm = "285018" #insulin
-    patid = '17788'
+    patid = '18043'
     df_g = allobsforpat(patid, loinc_g, server)
     df_c = allobsforpat(patid, loinc_c, server)
     df_e = allprocsforpat(patid, snomed, server)
     df_i = allMAsforpat(patid, rxnorm, server)
-    add_glucose_to_table(df_g, all_details, observations)
+    add_glucose_to_table(df_g, all_details, observations, datetime)
     add_carbs_to_table(df_c, all_details, observations)
     add_exercise_to_table(df_e, all_details, observations)
     add_insulin_to_table(df_i, all_details, observations)
@@ -405,18 +412,19 @@ def fetch_data(all_details, observations):
     # print(df_e.to_string())
     # print(df_i.to_string())
 
-def add_glucose_to_table(df_g, all_details, observations):
+def add_glucose_to_table(df_g, all_details, observations, datetime):
     for row in df_g.head().itertuples():
         details = {'date': row.Dates,
-               'data_type': 'glucose',
+               'data_type': 'Glucose',
                'value': row.Obs_Rsrc_Values}
         observations['glucose'].append(row.Obs_Rsrc_Values)
+        datetime.append(row.Dates);
         all_details.append(details)
 
 def add_carbs_to_table(df_c, all_details, observations):
     for row in df_c.head().itertuples():
         details = {'date': row.Dates,
-               'data_type': 'carbs',
+               'data_type': 'Carbs',
                'value': row.Obs_Rsrc_Values}
         observations['carbs'].append(row.Obs_Rsrc_Values)
         all_details.append(details)
@@ -424,7 +432,7 @@ def add_carbs_to_table(df_c, all_details, observations):
 def add_exercise_to_table(df_e, all_details, observations):
     for row in df_e.head().itertuples():
         details = {'date': row.Dates,
-               'data_type': 'exercise',
+               'data_type': 'Exercise',
                'value': row.Proc_Rsrc_Values}
         observations['exercise'].append(row.Proc_Rsrc_Values)
         all_details.append(details)
@@ -432,60 +440,39 @@ def add_exercise_to_table(df_e, all_details, observations):
 def add_insulin_to_table(df_i, all_details, observations):
     for row in df_i.head().itertuples():
         details = {'date': row.Dates,
-               'data_type': 'insulin',
+               'data_type': 'Insulin',
                'value': row.Dose}
         observations['insulin'].append(row.Dose)
         all_details.append(details)
 
 def store_data(patient):
-    # write a function to store the data of the new record
-    patid = '17788'
+    patid = '18043'
     server = 'https://api-v8-stu3.hspconsortium.org/Diabetes/open/'
-    #loinc = 'LP72222-0'
     currentDT = datetime.datetime.now()
-    # write a function to fetch all the details
     EnterCarbohydrates(server, patid, patient['carbs_'], currentDT.strftime("%Y-%m-%dT%H:%M:%S+01:00"))
     EnterGlucometerReading(server, patid, patient['glucose_'], currentDT.strftime("%Y-%m-%dT%H:%M:%S+01:00"))
     EnterExercise(server, patid, patient['exercise_'], currentDT.strftime("%Y-%m-%dT%H:%M:%S+01:00"))
     EnterInsulin_Lantus100u_ml(server, patid, patient['insulin_'], currentDT.strftime("%Y-%m-%dT%H:%M:%S+01:00"))
     return patient
 
-def fetch_all_details(all_details, observations):
-    '''
-       This currently is just hard-coded. Don't we need to add the input variable into each 'value' section?
-    '''
-
-    # details = {'date': '126464', 'data_type': 'carbs', 'value': 100}
-    # details_2 = {'date': '123123', 'data_type': 'carbs', 'value': 1234}
-    # details_3 = {'date': '123123', 'data_type': 'carbs', 'value': 1034}
-    # details_4 = {'date': '123123', 'data_type': 'carbs', 'value': 1067}
-    # all_details.append(details)
-    # all_details.append(details_2)
-    # all_details.append(details_3)
-    # all_details.append(details_4)
-    fetch_data(all_details, observations)
-    #print(all_details)
+def fetch_all_details(all_details, observations, datetime):
+    fetch_data(all_details, observations, datetime)
     return all_details
 
-def append_details(patient, all_details, observations):
-    '''
-       This currently is just hard-coded. We will change to access the correct data based on where the values. This would be something like df_g[date] to get the date value.
-    '''
-    #print("*****************",patient)
-    # todo get current time stamp
+def append_details(patient, all_details, observations, date_time):
     currentDT = datetime.datetime.now()
-    details_dict = {'date': (str(currentDT.strftime("%Y-%m-%dT%H:%M:%S+01:00"))), 'data_type': 'glucose', 'value': patient['glucose_']}
+    details_dict = {'date': (str(currentDT.strftime('%B %d, %Y, %r'))), 'data_type': 'Glucose', 'value': patient['glucose_']}
     all_details.append(details_dict)
-    details_dict = {'date': (str(currentDT.strftime("%Y-%m-%dT%H:%M:%S+01:00"))), 'data_type': 'carbs', 'value':  patient['carbs_']}
+    details_dict = {'date': (str(currentDT.strftime('%B %d, %Y, %r'))), 'data_type': 'Carbs', 'value':  patient['carbs_']}
     all_details.append(details_dict)
-    details_dict = {'date': (str(currentDT.strftime("%Y-%m-%dT%H:%M:%S+01:00"))), 'data_type': 'insulin', 'value': patient['insulin_']}
+    details_dict = {'date': (str(currentDT.strftime('%B %d, %Y, %r'))), 'data_type': 'Insulin', 'value': patient['insulin_']}
     all_details.append(details_dict)
-    details_dict = {'date': (str(currentDT.strftime("%Y-%m-%dT%H:%M:%S+01:00"))), 'data_type': 'exercise', 'value': patient['exercise_']}
+    details_dict = {'date': (str(currentDT.strftime('%B %d, %Y, %r'))), 'data_type': 'Exercise', 'value': patient['exercise_']}
     all_details.append(details_dict)
-
+    date_time.append((str(currentDT.strftime('%B %d, %Y, %r'))))
     observations['glucose'].append(patient['glucose_'])
     observations['carbs'].append(patient['carbs_'])
     observations['insulin'].append(patient['insulin_'])
     observations['exercise'].append(patient['exercise_'])
-    return all_details, observations
 
+    return all_details, observations

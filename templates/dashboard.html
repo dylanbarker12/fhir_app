@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../static/bootstrap_img/diabetes_FJl_icon.ico">
 
-    <title>Diabetes Tracker</title>
+    <title>Diabetes Tracker on FHIR</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/bootstrap_css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
 
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Diabetes Management Tracker on FHIR</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Diabetes Tracker on FHIR</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <a class="nav-link" href="/login">Sign out</a>
@@ -63,7 +63,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">My Weekly Key Data</h1>
+            <h1 class="h2">{{ username }}'s Weekly Diabetes Data</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -89,7 +89,6 @@
                 </tr>
               </thead>
               <tbody>
-                  <!--Where is patient_details coming from?-->
                   {% for detail in patient_details %}
                       <tr>
                         <td>{{detail.date}}</td>
@@ -195,13 +194,18 @@
         var glucose = '{{ observations['glucose'] }}';
         //var glucose = [100, 150, 120, 200, 126, 150];
         // console.log(typeof glucose);
-        console.log(glucose);
+        // console.log(glucose);
         var insulin = '{{ observations['insulin']  }}';
-        console.log(insulin);
+        // console.log(insulin);
         var carbs = '{{ observations['carbs']  }}';
-        console.log(carbs);
+        // console.log(carbs);
         var exercise = '{{ observations['exercise']  }}';
-        console.log(exercise);
+        // console.log(exercise);
+        //var datetime = ['April 11, 2019, 10:09:19 PM', 'April 15, 2019, 10:46:51 PM', 'April 15, 2019, 10:09:19 PM', 'April 15, 2019, 10:46:51 PM', 'April 12, 2019, 10:09:19 PM', 'April 15, 2019, 10:09:19 PM']
+        // var datetime = '{{ datetime }}';
+        console.log({{datetime | safe}});
+        // console.log(datetime);
+        //console.log(datetime);
         var all_details = '(( patient_details ))';
         var myChart = new Chart(ctx, {
             // The type of chart we want to create
@@ -209,7 +213,9 @@
 
             // The data for our dataset
             data: {
-                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                // labels: {{ datetime }},
+                //labels: datetime,s
+                labels: {{datetime | safe}},
                 datasets: [{
                   label: 'Blood Glucose (mg/dL)',
                   backgroundColor: 'transparent',

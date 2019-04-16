@@ -25,56 +25,60 @@
         </li>
       </ul>
     </nav>
-<form class="text-center border border-light p-5" method = "POST" action = "/dashboard">
-    <br>
-    <h2>Welcome Back, {{ username }}!</h2>
-    <br>
-    <h1>Start Tracking!</h1>
-    <br>
-    <!-- Subject -->
-    <label>Let's start with the time of day</label>
-    <select class="browser-default custom-select mb-4">
-        <option value="1">Morning (Breakfast)</option>
-        <option value="2">Mid-Day (Lunch)</option>
-        <option value="3">Evening (Dinner)</option>
-        <option value="4">Other (Snack)</option>
-    </select>
+<div class = "container">
+    <div class = "row">
+        <div class="col-md 5 mx-auto">
+            <form class="text-center border border-light p-5" method = "POST" action = "/dashboard">
+                <br>
+                <div class = container>
+                    <h1>Start Tracking, <b>{{ username }}</b>!</h1>
+                <p>Use this form to start tracking your <em>daily</em> diabetic information.</p>
+                <!-- Subject -->
+                <!--<label><h6>Let's start with the time of day</h6></label>-->
+                <!--<select class="browser-default custom-select mb-4">-->
+                    <!--<option value="1">Morning (Breakfast)</option>-->
+                    <!--<option value="2">Mid-Day (Lunch)</option>-->
+                    <!--<option value="3">Evening (Dinner)</option>-->
+                    <!--<option value="4">Other (Snack)</option>-->
+                <!--</select>-->
 
-    <!-- Blood Glucose Level-->
-    <label>Now enter your blood glucose level</label>
-    <input type="text" name = "glucose" id="defaultContactFormGlucose" class="form-control mb-4" placeholder="Blood Glucose Level. e.g., 120 mg/dL">
+                <!-- Blood Glucose Level-->
+                <label><h6>Enter your blood glucose level (mg/dL)</h6>
+                </label>
+                <input type="text" name = "glucose" id="defaultContactFormGlucose" class="form-control mb-4" placeholder="Blood Glucose Level. e.g., 120 mg/dL">
 
-    <!-- Carbohydrates Consumed -->
-    <label>And how many carbs you've eaten</label>
-    <input type="text" name = "carbs" id="defaultContactFormCarbs" class="form-control mb-4" placeholder="Carbohydrates Consumed. e.g., 30 grams">
+                <!-- Carbohydrates Consumed -->
+                <label><h6>And how many carbs you've eaten (in grams)</h6></label>
+                <input type="text" name = "carbs" id="defaultContactFormCarbs" class="form-control mb-4" placeholder="Carbohydrates Consumed. e.g., 30 grams">
 
-    <!-- Insulin Dosage -->
-    <label>How much insulin have you taken?</label>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <h5 class=flashes>
-        {% for message in messages %}
-        <h5><strong>{{ message }}</strong></h5>
-        {% endfor %}
-    </h5>
-    {% endif %}
-    {% endwith %}
-    {% block body %}{% endblock %}
-    <input type="text" name = "insulin" id="defaultContactFormInsulinDose" class="form-control mb-4" placeholder="Insulin Dose. e.g., 1 injection">
+                <!-- Insulin Dosage -->
+                <label><h6>How much insulin have you taken? (units)</h6></label>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <h5 class=flashes>
+                    {% for message in messages %}
+                    <h5><strong>{{ message }}</strong></h5>
+                    {% endfor %}
+                </h5>
+                {% endif %}
+                {% endwith %}
+                {% block body %}{% endblock %}
+                <input type="text" name = "insulin" id="defaultContactFormInsulinDose" class="form-control mb-4" placeholder="Insulin Dose. e.g., 30 units">
 
-    <!-- Exercise -->
-    <label>Any exercise?</label>
-    <input type="text" name = "exercise" id="defaultContactFormExercise" class="form-control mb-4" placeholder="Exercise Performed. e.g., 30 minutes">
+                <!-- Exercise -->
+                <label><h6>Any exercise? (in minutes)</h6></label>
+                <input type="text" name = "exercise" id="defaultContactFormExercise" class="form-control mb-4" placeholder="Exercise Performed. e.g., 30 minutes">
 
-    <!-- Message -->
-    <div class="form-group">
-        <label>Finally, describe how you're feeling.</label>
-        <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Symptoms. e.g., lightheadeness, weakness, etc."></textarea>
+                <!-- Message -->
+                <div class="form-group">
+                    <label><h6>Finally, describe how you're feeling.</h6></label>
+                    <textarea name = "note" class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Symptoms. e.g., lightheadeness, weakness, etc."></textarea>
+                </div>
+
+                <!-- Send button -->
+                <button class="btn btn-info btn-block" type="submit">Submit!</button>
+            </form>
+        </div>
     </div>
-
-    <!-- Send button -->
-    <button class="btn btn-info btn-block" type="submit">Submit!</button>
-
-</form>
-<!-- Default form contact -->
+</div>
 </body>
